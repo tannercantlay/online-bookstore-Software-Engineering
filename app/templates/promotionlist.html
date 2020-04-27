@@ -1,0 +1,40 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+<div class="container">
+  <h2>Promotions</h2>
+  <p>All promotions:</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Promo Code</th>
+        <th>Percentage</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>FREEBOOKS</td>
+        <td>100%</td>
+        <td>0</td>
+        <td>INFINITY</td>
+      </tr>
+      <tr>
+        <td>KINDAFREEBOOKS</td>
+        <td>75%</td>
+        <td>0</td>
+        <td>INFINITY</td>
+      </tr>
+      <tr>
+        <td>HALFOFF</td>
+        <td>50%</td>
+        <td>0</td>
+        <td>INFINITY</td>
+      </tr>
+    </tbody>
+  </table>
+   <a class = "btn btn-primary" href = "promotion.html" role = "button">Add Promotion</a>
+</div>
+
+{% endblock %}

@@ -1,0 +1,93 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+
+<div class="container text-center">
+  <h2>Edit Books</h2>
+  <form action="" method="post" enctype="multipart/form-data" novalidate>
+    {{form.csrf_token }}
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.isbn.label }}<br>
+        {{ form.isbn(size=32) }}
+        {% for error in form.isbn.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+    </p>
+    <p>
+     {{ form.title.label }}<br>
+     {{ form.title(size=32) }} <br>
+     {% for error in form.title.errors %}
+     <span style="color: red;">[{{ error }}]</span>
+     {% endfor %}
+ </p>
+ <p>
+    {{ form.edition.label }} <br>
+    {{ form.edition(size=32) }} <br>
+    {% for error in form.edition.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.author.label }}<br>
+    {{ form.author(size=32) }} <br>
+    {% for error in form.author.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.genre.label }}<br>
+    {{ form.genre(size=32) }} <br>
+    {% for error in form.genre.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.book_cover.label }}<br>
+    <img class="card-img-top" src="../static/{{book.book_cover}}" alt="Card image" style="height:150;width:auto"><br>
+    To change: <br>
+    {{ form.book_cover }} <br>
+    {% for error in form.book_cover.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.publisher.label }} <br>
+    {{ form.publisher(size=32)}} <br>
+    {% for error in form.publisher.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.year_pub.label }} <br>
+    {{ form.year_pub(size=32) }} <br>
+    {% for error in form.year_pub.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.num_stock.label }} <br>
+    {{ form.num_stock(size=32) }} <br>
+    {% for error in form.num_stock.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.buying_price.label }} <br>
+    {{ form.buying_price(size=32) }} <br>
+    {% for error in form.buying_price.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<p>
+    {{ form.selling_price.label }} <br>
+    {{ form.selling_price(size=32) }} <br>
+    {% for error in form.selling_price.errors %}
+    <span style="color: red;">[{{ error }}]</span>
+    {% endfor %}
+</p>
+<button type="submit" class="btn btn-primary">Save</button>
+<a class = "btn btn-danger" href = "booklist.html" role = "button">Cancel</a>
+</form>
+</div>
+{% endblock %}

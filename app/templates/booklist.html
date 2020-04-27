@@ -1,0 +1,28 @@
+{% extends "nav_base.html" %}
+{% block content %}
+<div class="container">
+  <h2>Books in Store</h2>
+  <p>Edit, Delete, or Add books</p>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for book in books %}
+        <tr>
+          <td><a href = "/book_edit:{{book.isbn}}">{{book.title}}</a></td>
+          <td>{{book.author}}</td>
+          <td>{{book.selling_price}}</td>
+          <td><a class = "btn btn-danger" href = "/delete:{{book.isbn}}" role = "button">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a class = "btn btn-primary" href = "addbook.html" role = "button">Add Book</a>
+</div>
+{% endblock %}

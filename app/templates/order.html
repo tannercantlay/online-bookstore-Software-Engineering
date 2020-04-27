@@ -1,0 +1,34 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+<div class="container">
+  <h2>Order No. 00000001</h2>
+  <p>Reorder or return past books</p>            
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Price</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>The Count of Monte Cristo</a></td>
+        <td>TBD</td>
+        <td>1,000,000</td>
+        <td><button type="submit" class="btn btn-primary">Return</button></td>
+      </tr>
+      <tr>
+        <td>The Hitchhiker's Guide to the Galaxy</td>
+        <td>TBD</td>
+        <td>1,000,000,000</td>
+        <td><button type="submit" class="btn btn-primary">Return</button></td>
+      </tr>
+    </tbody>
+  </table>
+ <button type="submit" class="btn btn-primary">Return</button>
+ <button type="submit" class="btn btn-primary">Re-Order</button>
+</div>
+{% endblock %}

@@ -1,0 +1,42 @@
+    quantity = request.args["quantity"]
+    if current_user.is_authenticated:
+        user = current_user
+        if Order.query.filter_by(user_id=current_user.id, status="current").first():
+            #create ListItem and associate with Order
+            order = Order.query.filter_by(user_id=current_user.id, status="current").first()
+            item = ListItem(book_item=bookId, book_quantity=quantity, order_id=order.id)
+            db.session.add(item)
+            db.session.commit()
+            flash('Items added to cart')
+        else:
+            #create Order
+            order = Order(user_id=current_user.id, status="current", total=0.0)
+            #add ListItem
+            item = ListItem(book_item=bookId, book_quantity=quantity, order_id=order.id)
+            #push both to db
+            db.session.add(order, item)
+            db.session.commit()
+            flash('Items added to cart')
+    else:
+        #if anon user has cart
+        if session.has_key('orderId'):
+            print(session['orderId'])
+            item = ListItem(book_item=bookId, book_quantity=quantity, order_id=session['orderId'])
+            db.session.add(item)
+            db.session.commit()
+            flash('Items added to cart')
+            #return redirect('cart.html',title='view cart', user=user)
+        else:
+            #create order
+            order = Order(status="current", total=0.0)
+            db.session.add(order)
+            db.session.flush()
+            #add order id to session
+            session['orderId'] = order.id
+            #add ListItem
+            item = ListItem(book_item=bookId, book_quantity=quantity, order_id=order.id)
+            #push both to db
+            db.session.add(item)
+            db.session.commit()
+            flash('Items added to cart')
+            #return redirect('cart.html',title='view cart', user=user)

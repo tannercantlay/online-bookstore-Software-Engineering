@@ -1,0 +1,100 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+<div class="container text-center">
+  <h2>Account Info</h2>
+  <form action="" method="post" novalidate>
+    {{form.csrf_token }}
+        {{ form.hidden_tag() }}
+        <h3>Personal Information</h3>
+        <p>
+            {{ form.first_name.label }}<br>
+            {{ form.first_name(size=32) }}<br>
+            {% for error in form.first_name.errors %}<br>
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+            {{ form.last_name.label }}<br>
+            {{ form.last_name(size=32) }}<br>
+            {% for error in form.last_name.errors %}<br>
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        <p>
+            {{ form.oldPassword.label }}<br>
+            {{ form.oldPassword(size=32) }}<br>
+            {% for error in form.oldPassword.errors %}<br>
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.newPassword.label }}<br>
+            {{ form.newPassword(size=32) }}<br>
+            {% for error in form.newPassword.errors %}<br>
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.newPassword2.label }}<br>
+            {{ form.newPassword2(size=32) }}<br>
+            {% for error in form.newPassword2.errors %}<br>
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}
+        </p>
+        <h3>Address Information (Optional)</h3>
+        <p>
+          {{ form.address.label }}<br>
+          {{ form.address(size=32) }}
+		  {% for error in form.address.errors %}<br>
+		  <span style="color: red;">[{{ error }}]</span>
+		  {% endfor %}
+
+        </p>
+        <h3>Payment Information (Optional)</h3>
+
+        {% if hasLast %}
+          <p>
+            Current Card:
+		{% if credit %}
+        	Credit
+		{% else %}
+			Debit
+		{% endif %}
+		 ending in {{ current_user.last_four}}
+          </p>
+		{% else %}
+		No card saved
+        {% endif %}
+
+        <p>
+          {{ form.cardtype.label }}<br>
+          {{ form.cardtype() }}
+		  {% for error in form.cardtype.errors %}<br>
+		  <span style="color: red;">[{{ error }}]</span>
+		  {% endfor %}
+        </p>
+        <p>
+          {{ form.card_num.label }}<br>
+          {{ form.card_num(size=32) }}
+		  {% for error in form.card_num.errors %}<br>
+		  <span style="color: red;">[{{ error }}]</span>
+		  {% endfor %}
+        </p>
+        <p>
+          {{ form.card_exp.label }}<br>
+          {{ form.card_exp(size=32) }}
+		  {% for error in form.card_exp.errors %}<br>
+		  <span style="color: red;">[{{ error }}]</span>
+		  {% endfor %}
+        </p>
+           <p>
+            {{ form.subscribed()}}
+            Email List
+          </p>
+
+
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a class = "btn btn-danger" href = "index.html" role = "button">Back</a>
+    </form>
+</div>
+{% endblock %}
+

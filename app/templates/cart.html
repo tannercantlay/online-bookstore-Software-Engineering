@@ -1,0 +1,267 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+<body class = "container .pt-3">
+	<div class="jumbotron text-center" style="margin-bottom:0">
+   <h1>Your Cart</h1>
+ </div>
+ <table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Title</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td><img class="card-img-top" src="static/{{item[1].book_cover}}" alt="Card image" style="height:150;width:auto"></td>
+      <td>{{item[1].title}}</td>
+      <td>${{"{:.2f}".format(item[1].get_selling_price())}}</td>
+      <td>
+          <form action="{{ url_for('update_quantity', id=item[0].id) }}" method="get">
+            <span>
+              <div class="form-group col-md-5">
+                <input type="text" class="form-control" value="{{item[0].book_quantity}}" name="quantity"></input>
+              </div>
+              <input type="submit" class="btn btn-info" value="Update">
+            </span>
+          </form>
+      </td>
+      <td><a class="btn btn-danger" href = "/remove_from_cart:{{item[0].id}}" role = "button">Remove</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<form action="/cart.html" method="get">
+  <span>
+    <label for="inputZip">Promo Code: </label>
+    <div class="form-group col-md-4">
+      <input type="text" class="form-control" value="" name="promo"></input><br>
+      <input type="submit" class="btn btn-success" value="Apply Promo">
+    </div>
+  </span>
+</form>
+
+<h3><br>Total:</h3>
+<p>Sub-total: ${{"{:.2f}".format(order.total)}}</p>
+{% if promo[0] %}
+<p>Applied Promo Code: {{promo[1]}}</p>
+{% endif %}
+<p>Total Savings: $<span style="color:red;">{{"{:.2f}".format(order.total - order.discount_total)}}</span> </p>
+<p><b>Total: ${{"{:.2f}".format(order.discount_total)}}</b></p>
+
+<br>
+
+
+
+
+{% if items == []%}
+<p>Add items to cart to checkout.</p>
+{% else %}
+{% if current_user.is_authenticated %}
+{%if current_user.active %}
+<!-- Button to Open the Modal -->
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#shippingconfirm">
+  Checkout
+</button><br>
+{% else %}
+<p>Only Registered users can checkout, please confirm your email.</p><br>
+<a class = "btn btn-primary" href = "register.html" role = "button">Confirm Email</a><br>
+{% endif %}
+{% else %}
+<p>Only Registered users can checkout, please register and confirm your email.</p><br>
+<a class = "btn btn-primary" href = "create_account.html" role = "button">Register</a><br>
+{% endif %}
+{% endif %}
+<!-- The Modal -->
+<form action="" method="post" novalidate>
+  {{form.csrf_token }}
+  {{ form.hidden_tag() }}
+  <div class="modal" id="shippingconfirm">
+   <div class="modal-dialog">
+     <div class="modal-content">
+
+       <!-- Modal Header -->
+       <div class="modal-header">
+         <h4 class="modal-title">Confirm Shipping</h4>
+         <button type="button" class="close" data-dismiss="modal">&times;</button>
+       </div>
+
+       <!-- Modal body -->
+       <div class="modal-body">
+         <div class="form-group">
+           <label for="streetAdd">Address:</label>
+           {{form.address}}
+         </div>
+       </div>
+
+       <!-- Modal footer -->
+       <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Back</button>
+        <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#paymentconfirm">Confirm</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal" id="paymentconfirm">
+ <div class="modal-dialog">
+   <div class="modal-content">
+
+     <!-- Modal Header -->
+     <div class="modal-header">
+       <h4 class="modal-title">Confirm Payment</h4>
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+     </div>
+     <!-- Modal body -->
+     <div class="modal-body">
+      {% if current_user.card_num and current_user.card_exp and current_user.last_four %}
+      <p>
+        Current Card:
+        {% if current_user.cartype == 'c' %}
+        Credit
+        {% else %}
+        Debit
+        {% endif %}
+        ending in {{ current_user.last_four}}
+      </p>
+      <div class="form-group">
+        <label for="cardCVV">CVV: <span style="color:red;">*</span>(This Field is required)</label><br>
+        {{form.card_cvv}}
+        {% for error in form.card_cvv.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <button class="btn btn-primary" data-dismiss="modal" data-toggle = "modal" data-target="#changecard">Change Card</button>
+      {% else %}
+      No card saved
+      <h4>Input Credit Card (All Fields Required)</h4>
+      <div class="form-group">
+        <label for="cardType">Card Type: <span style="color:red;">*</span></label><br>
+        {{form.cardtype}}
+        {% for error in form.cardtype.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="cardNum">Card Number: <span style="color:red;">*</span></label><br>
+        {{form.card_num}}
+        {% for error in form.card_num.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="exDate">Expiration Date: <span style="color:red;">*</span></label><br>
+        {{form.card_exp}}
+        {% for error in form.card_exp.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="cardCVV">CVV: <span style="color:red;">*</span></label><br>
+        {{form.card_cvv}}
+        {% for error in form.card_cvv.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+
+    <!-- Modal footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle = "modal" data-target="#shippingconfirm">Back</button>
+      <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle = "modal" data-target="#checkoutconfirm">Confirm</button>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="modal" id="changecard">
+ <div class="modal-dialog">
+   <div class="modal-content">
+
+     <!-- Modal Header -->
+     <div class="modal-header">
+       <h4 class="modal-title">Change Card (All Fields Required)</h4>
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+     </div>
+     <!-- Modal body -->
+     <div class="modal-body">
+      <div class="form-group">
+        <label for="cardType">Card Type: <span style="color:red;">*</span></label><br>
+        {{form.cardtype}}
+        {% for error in form.cardtype.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="cardNum">Card Number: <span style="color:red;">*</span></label><br>
+        {{form.card_num}}
+        {% for error in form.card_num.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="exDate">Expiration Date: <span style="color:red;">*</span></label><br>
+        {{form.card_exp}}
+        {% for error in form.card_exp.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+      <div class="form-group">
+        <label for="cardCVV">CVV: <span style="color:red;">*</span></label><br>
+        {{form.card_cvv}}
+        {% for error in form.card_cvv.errors %}
+        <span style="color: red;">[{{ error }}]</span>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Modal footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle = "modal" data-target="#paymentconfirm">Back</button>
+      <button type="submit" class="btn btn-primary" data-dismiss="modal" data-toggle = "modal" data-target="#checkoutconfirm">Confirm</button>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="modal" id="checkoutconfirm">
+ <div class="modal-dialog">
+   <div class="modal-content">
+
+     <!-- Modal Header -->
+     <div class="modal-header">
+       <h4 class="modal-title">Confirm Order</h4>
+       <button type="button" class="close" data-dismiss="modal">&times;</button>
+     </div>
+     <!-- Modal body -->
+     <div class="modal-body">
+      <h3><br>Total:</h3>
+      <p>Sub-total: ${{"{:.2f}".format(order.total)}}</p>
+      {% if promo[0] %}
+      <p>Applied Promo Code: {{promo[1]}}</p>
+      {% endif %}
+      <p>Total Savings: $<span style="color:red;">{{"{:.2f}".format(order.total - order.discount_total)}}</span> </p>
+      <p><b>Total: ${{"{:.2f}".format(order.discount_total)}}</b></p>
+    </div>
+
+    <!-- Modal footer -->
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle = "modal" data-target="#paymentconfirm">Back</button>
+      <button type="submit" class="btn btn-primary">Confirm Order</button>
+    </div>
+
+  </div>
+</div>
+</div>
+</form>
+</body>
+{% endblock %}

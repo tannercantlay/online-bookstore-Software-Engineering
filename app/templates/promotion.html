@@ -1,0 +1,30 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <h2>Add Promotion</h2>
+  <form action="/action_page.php">
+  	<div class="form-group">
+      <label for="promo">Promo Code:</label>
+      <input type="promo" class="form-control" id="promo" placeholder="Enter Promo" name="promo">
+    </div>
+    <div class="form-group">
+      <label for="percentage">Percentage:</label>
+      <input type="percentage" class="form-control" id="percentage" placeholder="Enter percentage" name="percentage">
+    </div>
+    <div class="form-group">
+      <label for="startdate">Start Date:</label>
+      <input type="startdate" class="form-control" id="startdate" placeholder="Enter Start Date" name="startdate">
+    </div>
+    <div class="form-group">
+      <label for="enddate">End Date:</label>
+      <input type="enddate" class="form-control" id="enddate" placeholder="Enter End Date" name="enddate">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <a class = "btn btn-danger" href = "promotionlist.html" role = "button">Cancel</a>
+  </form>
+</div>
+
+{% endblock %}
+

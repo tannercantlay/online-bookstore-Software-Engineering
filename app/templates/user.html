@@ -1,0 +1,66 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+
+<div class="container">
+  <h2>Account Information</h2>
+  <form action="/action_page.php">
+    <div class="form-group">
+      <label for="name">Full Name:</label>
+      <input type="name" class="form-control" id="name" placeholder="Enter Name" name="name">
+    </div>
+    <div class="form-group">
+      <label for="email">Email:</label>
+      <input type="email" class="form-control" id="email" placeholder="Enter email" name="email">
+    </div>
+    <div class="form-group">
+      <label for="pwd">Password:</label>
+      <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd">
+    </div>
+    <div class="form-group">
+      <label for="phoneNum">Phone Number:</label>
+      <input type="phoneNum" class="form-control" id="phoneNum" placeholder="Enter phone number" name="phoneNum">
+    </div>
+    <h3>Payment Information</h3>
+     <div class="form-group">
+      <label for="cardType">Card Type:</label>
+      <input type="cardType" class="form-control" id="cardType" placeholder="Enter Card Type" name="cardType">
+    </div>
+     <div class="form-group">
+      <label for="cardNum">Card Number:</label>
+      <input type="cardNum" class="form-control" id="cardNum" placeholder="Enter Card Number" name="cardNum">
+    </div>
+     <div class="form-group">
+      <label for="exDate">Expiration Date:</label>
+      <input type="exDate" class="form-control" id="exDate" placeholder="Enter Expiration Date" name="exDate">
+    </div>
+    <h3>Shipping Information</h3>
+     <div class="form-group">
+      <label for="streetAdd">Address:</label>
+      <input type="streetAdd" class="form-control" id="streetAdd" placeholder="Enter Address" name="streetAdd">
+    </div>
+     <div class="form-group">
+      <label for="city">City:</label>
+      <input type="city" class="form-control" id="city" placeholder="Enter City" name="city">
+    </div>
+     <div class="form-group">
+      <label for="state">State:</label>
+      <input type="state" class="form-control" id="state" placeholder="Enter State" name="state">
+    </div>
+     <div class="form-group">
+      <label for="zipcode">Zipcode:</label>
+      <input type="zipcode" class="form-control" id="zipcode" placeholder="Enter Zipcode" name="zipcode">
+    </div>
+    <div class="form-check">
+      <label class="form-check-label">
+        <input type="checkbox" class="form-check-input" value="">IsSuspended
+      </label>
+    </div>
+    <button type = "submit" class="btn btn-success">Promote to Admin</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-danger">Delete</button>
+  </form>
+</div>
+
+{% endblock %}
+

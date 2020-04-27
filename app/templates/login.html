@@ -1,0 +1,22 @@
+{% extends "nav_base.html" %}
+
+{% block content %}
+<div class="container text-center">
+	<h2>Login</h2>
+	<form action="" method="post" novalidate>
+		{{ form.hidden_tag() }}
+		<p>
+			{{ form.email.label }}<br>
+			{{ form.email(size=32) }}
+        </p>
+        <p>
+            {{ form.password.label }}<br>
+            {{ form.password(size=32) }}
+        </p>
+        <p>{{ form.remember_me() }} {{ form.remember_me.label }} | <a href = "forgotpassword.html" role = "button">Forgot Password?</a></p>
+        <!--<p>{{ form.submit() }}</p>-->
+         <button type="submit" class="btn btn-primary">Login</button><br><br>
+         <p>Need an Account? <a href = "create_account.html" role = "button">Create User</a></p>
+    </form>
+</div>
+{% endblock %}
